@@ -25,7 +25,8 @@
     "lint:fix": "eslint ./src --ext .ts,.tsx --fix",
     "prepare": "husky install",
     "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "codegen:abi": "typechain --target ethers-v5 --out-dir src/contracts ./src/abi/*.abi"
   },
   "eslintConfig": {
     "extends": [
@@ -66,6 +67,7 @@
     "@storybook/preset-create-react-app": "^4.0.1",
     "@storybook/react": "^6.4.19",
     "@storybook/testing-library": "^0.0.9",
+    "@typechain/ethers-v5": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "^5.13.0",
     "@typescript-eslint/parser": "^5.13.0",
     "autoprefixer": "^9",
@@ -77,6 +79,7 @@
     "postcss": "^7",
     "prettier": "^2.5.1",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
+    "typechain": "^7.0.0",
     "webpack": "^5.69.1"
   },
   "config": {
