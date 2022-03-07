@@ -1,19 +1,17 @@
-import React from 'react'
-import logo from './logo.svg'
+import React, { useEffect } from 'react'
 import './App.css'
+import { TokenPrice } from './components/TokenPrice'
+import { Token } from './config/constants'
 
 function App() {
   return (
-    <div className='App'>
-      <header className='App-header'>
-        <img src={logo} className='App-logo' alt='logo' />
-        <p className='font-bold'>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a className='App-link' href='https://reactjs.org' target='_blank' rel='noopener noreferrer'>
-          Learn React
-        </a>
-      </header>
+    <div className='h-screen w-screen before:fixed before:h-screen before:w-screen before:bg-sorashima before:top-0 before:left-0 before:brightness-50 text-white'>
+      <div className='relative bg-gradient-black h-full'>
+        <h1>Augminted-backdoor</h1>
+        <div>
+          <TokenPrice token={Token.RWASTE} />
+        </div>
+      </div>
     </div>
   )
 }
