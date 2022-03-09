@@ -4,7 +4,7 @@ import { NavLink } from 'src/components/NavLink'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import { faExternalLink, faChartLine } from '@fortawesome/free-solid-svg-icons'
 export const NavBar = () => (
-  <nav className='w-80 bg-panel mx-auto mb-6 ml-8'>
+  <nav className=' bg-panel mx-auto py-3 mb-6 ml-8'>
     <div className='my-8'>
       <img src={logo} className='px-8 pb-1' />
       <h1 className='font-glitch text-green-corrosive font-semibold text-center'>Dashboard (root)</h1>
