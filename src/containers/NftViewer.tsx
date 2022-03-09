@@ -1,9 +1,9 @@
 import React, { FC, useEffect, useState } from 'react'
 import { useNFTBalances } from 'react-moralis'
-import { KAIJU_KINGZ_ADDRESS, MUTANTS_ADDRESS } from '../config/constants'
-import { useKaijuContract } from '../hooks/useKaijuContract'
-import { useMutantContract } from '../hooks/useMutantContract'
-import { Nft } from '../interfaces/nft.interface'
+import { KAIJU_KINGZ_ADDRESS, MUTANTS_ADDRESS } from 'src/config/constants'
+import { useKaijuContract } from 'src/hooks/useKaijuContract'
+import { useMutantContract } from 'src/hooks/useMutantContract'
+import { Nft } from 'src/interfaces/nft.interface'
 
 export const NftViewer: FC<{ wallet: string }> = ({ wallet }) => {
   const { data } = useNFTBalances({ chain: 'eth', address: wallet }, { autoFetch: true })

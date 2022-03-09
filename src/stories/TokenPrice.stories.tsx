@@ -1,8 +1,8 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { TokenPrice } from '../components/TokenPrice'
-import { Token } from '../config/constants'
+import { TokenPrice } from 'src/components/TokenPrice'
+import { Token } from 'src/config/constants'
 import { MoralisProvider } from 'react-moralis'
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
