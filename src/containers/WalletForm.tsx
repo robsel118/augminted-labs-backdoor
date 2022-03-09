@@ -37,7 +37,7 @@ export const WalletForm = () => {
         <input
           id='wallet-field'
           name='wallet-field'
-          className='placeholder:text-black text-black px-4 py-2 rounded-lg w-full border-gray-300 border focus:ring-redioactive focus:border-redioactive'
+          className='placeholder:text-black text-black px-4 py-2 rounded-lg w-full border-gray-300 border focus:ring-green-corrosive focus:border-green-corrosive'
           required
           value={wallet}
           onChange={(event) => setWallet(event.target.value)}
@@ -49,7 +49,7 @@ export const WalletForm = () => {
         <input
           id='remember-me'
           type='checkbox'
-          className='text-redioactive focus:ring-redioactive'
+          className='text-green-corrosive focus:ring-green-corrosive'
           name='remember-me'
           checked={rememberMe}
           onChange={() => setRememberMe((previousState) => !previousState)}
