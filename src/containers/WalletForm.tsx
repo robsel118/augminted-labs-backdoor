@@ -9,6 +9,7 @@ export const WalletForm = () => {
   const [rememberMe, setRememberMe] = useState<boolean>(false)
 
   const navigate = useNavigate()
+  const isWalletValid = wallet.match(/^0x[a-fA-F0-9]{40}$/) ? true : false
   const onSubmit = () => {
     // TODO: remove comments
     // if (rememberMe) {
@@ -57,12 +58,8 @@ export const WalletForm = () => {
           Remember wallet address next time
         </label>
       </div>
-      <GlowingBackground>
-        <button
-          onClick={onSubmit}
-          disabled={wallet.match(/^0x[a-fA-F0-9]{40}$/) ? false : true}
-          className='w-full'
-        >
+      <GlowingBackground glow={isWalletValid}>
+        <button onClick={onSubmit} disabled={!isWalletValid} className='w-full py-4 '>
           Scan wallet
         </button>
       </GlowingBackground>
