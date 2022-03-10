@@ -4,6 +4,7 @@ import { NavBar } from 'src/containers/NavBar'
 import { WalletForm } from 'src/containers/WalletForm'
 import { Route, Routes } from 'react-router-dom'
 import { RouteNames } from './config/routes'
+import { WalletPage } from './pages/wallet'
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
           <Routes>
             <Route path={RouteNames.HOME} element={<WalletForm />} />
 
-            <Route path={RouteNames.WALLET_ID} element={<>if you love pina colada</>} />
+            <Route path={RouteNames.WALLET_ID} element={<WalletPage />} />
           </Routes>
         </div>
       </div>
