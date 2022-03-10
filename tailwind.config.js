@@ -21,8 +21,24 @@ module.exports = {
       },
       backgroundColor: {
         panel: 'rgba(42,39,53,0.75)',
+        "panel-opaque": 'rgba(42,39,53,1)',
         "panel-brighter": '#3e3a498f'
-      }
+      },
+      keyframes: {
+        typewriter: {
+          to: {
+            left: '100%'
+          }
+        },
+        blink: {
+          from: {
+            backgroundColor: 'rgba(42,39,53,1)'
+          },
+          to: {
+            backgroundColor: '#2bf586'
+          }
+        }
+      },
     },
   },
   variants: {
