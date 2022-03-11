@@ -27,6 +27,10 @@ interface TypeWriterProps {
 }
 
 export const TypeWriter: FC<TypeWriterProps> = ({ text }) => {
+  if (!(text.length.toString() in animations)) {
+    console.error('text length not supported, the animation would look off if the length is not supported')
+    return <></>
+  }
   return (
     <span
       className={cn(
