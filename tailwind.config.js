@@ -32,10 +32,10 @@ module.exports = {
         },
         blink: {
           from: {
-            backgroundColor: 'rgba(42,39,53,1)'
+            backgroundColor: '#2bf586'
           },
           to: {
-            backgroundColor: '#2bf586'
+            backgroundColor: 'rgba(42,39,53,1)'
           }
         }
       },
