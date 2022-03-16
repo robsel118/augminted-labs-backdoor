@@ -12,6 +12,7 @@ interface DataLoaderProps {
   setRwaste: Dispatch<SetStateAction<RwasteBalance>>
   setKaijus: Dispatch<SetStateAction<Nft[]>>
   setMutants: Dispatch<SetStateAction<Nft[]>>
+  setDataLoaded: Dispatch<SetStateAction<boolean>>
 }
 
 const typewriterOption = {
@@ -37,7 +38,7 @@ export interface MoralisResponse {
 }
 
 const wallet = '0x36A16809AED6AE0fa2d6854EE06ad158D5884ec9'
-export const DataLoader: FC<DataLoaderProps> = ({ setRwaste, setKaijus, setMutants }) => {
+export const DataLoader: FC<DataLoaderProps> = ({ setRwaste, setKaijus, setMutants, setDataLoaded }) => {
   const [progress, setProgress] = useState<number>(0)
   const [nfts, setNfts] = useState<MoralisResponse[]>([])
   const { getRwasteBalance, getRwasteToClaim } = useRwasteContract()
@@ -171,7 +172,11 @@ export const DataLoader: FC<DataLoaderProps> = ({ setRwaste, setKaijus, setMutan
           <Typewriter
             options={typewriterOption}
             onInit={(typewriter) => {
-              typewriter.typeString('Generating report...').pauseFor(200).start()
+              typewriter
+                .typeString('Generating report...')
+                .pauseFor(200)
+                .callFunction(() => setDataLoaded(true))
+                .start()
             }}
           />
           <CursorStatus visible />

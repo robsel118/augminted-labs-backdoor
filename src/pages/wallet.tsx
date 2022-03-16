@@ -7,5 +7,22 @@ export const WalletPage = () => {
   const [kaijus, setKaijus] = useState<Nft[]>([])
   const [mutants, setMutants] = useState<Nft[]>([])
   const [rwaste, setRwaste] = useState<RwasteBalance>({ held: 0, toClaim: 0 })
-  return <DataLoader setKaijus={setKaijus} setMutants={setMutants} setRwaste={setRwaste} />
+  const [isDataLoaded, setDataLoaded] = useState<boolean>(false)
+
+  if (!isDataLoaded) {
+    return (
+      <DataLoader
+        setKaijus={setKaijus}
+        setMutants={setMutants}
+        setRwaste={setRwaste}
+        setDataLoaded={setDataLoaded}
+      />
+    )
+  }
+
+  return (
+    <div>
+      <RwastePanel rwaste={rwaste} genesisCount={kaijus.length} />
+    </div>
+  )
 }
