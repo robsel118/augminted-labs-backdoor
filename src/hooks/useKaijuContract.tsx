@@ -19,5 +19,10 @@ export const useKaijuContract = () => {
       Promise.all(mutantTokenUris.map((tokenUri) => axios.get(tokenUri)))
     )
   }
-  return { KaijuContract, getKaijuBalanceMetadata }
+
+  const getGenesisCount = (wallet: string) => {
+    return KaijuContract.balanceGenesis(wallet)
+  }
+
+  return { KaijuContract, getKaijuBalanceMetadata, getGenesisCount }
 }

@@ -6,12 +6,13 @@ import { useKaijuContract } from 'src/hooks/useKaijuContract'
 import { useMutantContract } from 'src/hooks/useMutantContract'
 import { useRwasteContract } from 'src/hooks/useRwasteContract'
 import { Nft } from 'src/interfaces/nft.interface'
-import { RwasteBalance } from 'src/interfaces/RwasteBalance.interface'
+import { RwasteBalance } from 'src/interfaces/rwasteBalance.interface'
 import Typewriter from 'typewriter-effect'
 interface DataLoaderProps {
   setRwaste: Dispatch<SetStateAction<RwasteBalance>>
   setKaijus: Dispatch<SetStateAction<Nft[]>>
   setMutants: Dispatch<SetStateAction<Nft[]>>
+  setGenesisCount: Dispatch<SetStateAction<number>>
   setDataLoaded: Dispatch<SetStateAction<boolean>>
 }
 
@@ -38,13 +39,19 @@ export interface MoralisResponse {
 }
 
 const wallet = '0x36A16809AED6AE0fa2d6854EE06ad158D5884ec9'
-export const DataLoader: FC<DataLoaderProps> = ({ setRwaste, setKaijus, setMutants, setDataLoaded }) => {
+export const DataLoader: FC<DataLoaderProps> = ({
+  setRwaste,
+  setKaijus,
+  setMutants,
+  setDataLoaded,
+  setGenesisCount
+}) => {
   const [progress, setProgress] = useState<number>(0)
   const [nfts, setNfts] = useState<MoralisResponse[]>([])
   const { getRwasteBalance, getRwasteToClaim } = useRwasteContract()
   const { getNFTBalances } = useNFTBalances({ chain: 'eth', address: wallet }, { autoFetch: false })
 
-  const { getKaijuBalanceMetadata } = useKaijuContract()
+  const { getKaijuBalanceMetadata, getGenesisCount } = useKaijuContract()
   const { getMutantBalanceMetadata } = useMutantContract()
   return (
     <div className='bg-panel-opaque p-8'>
@@ -96,11 +103,15 @@ export const DataLoader: FC<DataLoaderProps> = ({ setRwaste, setKaijus, setMutan
               typewriter
                 .typeString('Accessing Genesis project data')
                 .callFunction((typed) => {
-                  getKaijuBalanceMetadata(
-                    nfts
-                      .filter((nft) => nft.token_address === KAIJU_KINGZ_ADDRESS)
-                      .map((nft) => nft.token_id)
-                  ).then((response) => {
+                  Promise.all([
+                    getKaijuBalanceMetadata(
+                      nfts
+                        .filter((nft) => nft.token_address === KAIJU_KINGZ_ADDRESS)
+                        .map((nft) => nft.token_id)
+                    ),
+                    getGenesisCount(wallet)
+                  ]).then(([response, count]) => {
+                    setGenesisCount(parseInt(count._hex, 16))
                     setKaijus(response.map((nft) => nft.data))
                     typed.elements.container.innerHTML += successStatus
                     setProgress((step) => step + 1)
