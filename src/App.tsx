@@ -5,6 +5,8 @@ import { WalletForm } from 'src/containers/WalletForm'
 import { Route, Routes } from 'react-router-dom'
 import { RouteNames } from './config/routes'
 import { WalletPage } from './pages/wallet'
+import { TokenPrice } from './components/TokenPrice'
+import { Token } from './config/constants'
 
 function App() {
   return (
@@ -14,6 +16,9 @@ function App() {
           <NavBar />
         </div>
         <div className='block px-8'>
+          <div className='flex flex-row justify-end h-max px-10'>
+            <TokenPrice token={Token.RWASTE} />
+          </div>
           <Routes>
             <Route path={RouteNames.HOME} element={<WalletForm />} />
 
