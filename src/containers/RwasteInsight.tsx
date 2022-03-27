@@ -22,7 +22,7 @@ export const RWasteInsight: FC<RwasteInsightProps> = ({
 }) => {
   const { rwasteToken } = useContext(TokenPriceContext)
   return (
-    <div className='order-2 lg:order-1'>
+    <div className='order-2 xl:order-1'>
       <h2 className='text-4xl text-white font-extrabold mb-16'>
         You can claim a total of {rwaste.toClaim.toFixed(0)} $RWASTE
       </h2>

@@ -43,7 +43,7 @@ export const RwastePanel: FC<RwastePanelProps> = ({ genesisCount, rwaste }) => {
   const { rwasteToken } = useContext(TokenPriceContext)
   const tokenPriceInEthers = parseFloat(ethers.utils.formatEther(rwasteToken.value!.nativePrice!.value))
   return (
-    <div className='bg-panel flex flex-col gap-4 px-8 py-6 rounded-sm w-max border-l-4 border-green-corrosive order-1 lg:order-2'>
+    <div className='bg-panel flex flex-col gap-4 px-8 py-6 rounded-sm w-max border-l-4 border-green-corrosive order-1 xl:order-2'>
       <p className='text-xl font-bold text-white'>OVERVIEW</p>
       <Panel
         icon={faDollarSign}

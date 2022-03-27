@@ -25,7 +25,7 @@ export const WalletPage = () => {
   }
 
   return (
-    <div className='grid grid-col-1 lg:grid-cols-[1fr,_300px] gap-8 place-items-center lg:place-items-start'>
+    <div className='grid grid-col-1 xl:grid-cols-[1fr,_300px] gap-8 place-items-center lg:place-items-start'>
       <RWasteInsight
         rwaste={rwaste}
         genesisCount={genesisCount}

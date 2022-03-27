@@ -16,7 +16,7 @@ function App() {
           <div className='block'>
             <NavBar />
           </div>
-          <div className='block px-8 py-4'>
+          <div className='block px-8'>
             <Routes>
               <Route path={RouteNames.HOME} element={<WalletForm />} />
 
