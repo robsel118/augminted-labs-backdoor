@@ -1,7 +1,10 @@
-import React, { Dispatch, FC, SetStateAction, useState } from 'react'
-import { useNFTBalances } from 'react-moralis'
+import React, { Dispatch, FC, SetStateAction, useContext, useState } from 'react'
+import { useNFTBalances, useTokenPrice } from 'react-moralis'
+import { useParams, useNavigate } from 'react-router-dom'
 import { CursorStatus } from 'src/components/CursorStatus'
-import { KAIJU_KINGZ_ADDRESS, MUTANTS_ADDRESS } from 'src/config/constants'
+import { KAIJU_KINGZ_ADDRESS, MUTANTS_ADDRESS, Token, TokenAddress } from 'src/config/constants'
+import { RouteNames } from 'src/config/routes'
+import { TokenPriceContext } from 'src/context/tokenPriceContext'
 import { useKaijuContract } from 'src/hooks/useKaijuContract'
 import { useMutantContract } from 'src/hooks/useMutantContract'
 import { useRwasteContract } from 'src/hooks/useRwasteContract'
@@ -38,7 +41,6 @@ export interface MoralisResponse {
   symbol: string
 }
 
-const wallet = '0x36A16809AED6AE0fa2d6854EE06ad158D5884ec9'
 export const DataLoader: FC<DataLoaderProps> = ({
   setRwaste,
   setKaijus,
@@ -46,13 +48,38 @@ export const DataLoader: FC<DataLoaderProps> = ({
   setDataLoaded,
   setGenesisCount
 }) => {
+  // page state
   const [progress, setProgress] = useState<number>(0)
+  const [error, setError] = useState<boolean>(false)
   const [nfts, setNfts] = useState<MoralisResponse[]>([])
+
+  // context
+  const { rwasteToken } = useContext(TokenPriceContext)
+
+  // react router
+  const { wallet } = useParams()
+  const navigate = useNavigate()
+
   const { getRwasteBalance, getRwasteToClaim } = useRwasteContract()
   const { getNFTBalances } = useNFTBalances({ chain: 'eth', address: wallet }, { autoFetch: false })
-
   const { getKaijuBalanceMetadata, getGenesisCount } = useKaijuContract()
   const { getMutantBalanceMetadata } = useMutantContract()
+  const { fetchTokenPrice } = useTokenPrice({
+    address: TokenAddress[Token.RWASTE],
+    chain: 'eth'
+  })
+
+  if (wallet === undefined) {
+    navigate(RouteNames.HOME)
+  }
+  if (error) {
+    return (
+      <div className='bg-panel p-4 text-redioactive'>
+        Something went wrong... Maybe someone spilled RWASTE on the server...{' '}
+      </div>
+    )
+  }
+
   return (
     <div className='bg-panel-opaque p-8'>
       {progress >= 0 && (
@@ -63,10 +90,15 @@ export const DataLoader: FC<DataLoaderProps> = ({
               typewriter
                 .typeString('---WAITING FOR SOCKET CONNECTION---')
                 .callFunction(() => {
-                  getNFTBalances().then((response) => {
-                    setNfts(response?.result || [])
-                    setProgress(5)
-                  })
+                  Promise.all([fetchTokenPrice(), getNFTBalances()])
+                    .then(([rwastePrice, nftBalance]) => {
+                      setNfts(nftBalance?.result || [])
+                      rwasteToken.setValue(rwastePrice!)
+                      setProgress(5)
+                    })
+                    .catch(() => {
+                      setError(true)
+                    })
                 })
                 .start()
             }}
@@ -82,11 +114,15 @@ export const DataLoader: FC<DataLoaderProps> = ({
               typewriter
                 .typeString('Accessing RWASTE project data')
                 .callFunction((typed) => {
-                  Promise.all([getRwasteBalance(wallet), getRwasteToClaim(wallet)]).then((response) => {
-                    setRwaste({ held: response[0], toClaim: response[1] })
-                    typed.elements.container.innerHTML += successStatus
-                    setProgress((step) => step + 1)
-                  })
+                  Promise.all([getRwasteBalance(wallet!), getRwasteToClaim(wallet!)])
+                    .then((response) => {
+                      setRwaste({ held: response[0], toClaim: response[1] })
+                      typed.elements.container.innerHTML += successStatus
+                      setProgress((step) => step + 1)
+                    })
+                    .catch(() => {
+                      setError(true)
+                    })
                 })
                 .start()
             }}
@@ -109,13 +145,17 @@ export const DataLoader: FC<DataLoaderProps> = ({
                         .filter((nft) => nft.token_address === KAIJU_KINGZ_ADDRESS)
                         .map((nft) => nft.token_id)
                     ),
-                    getGenesisCount(wallet)
-                  ]).then(([response, count]) => {
-                    setGenesisCount(parseInt(count._hex, 16))
-                    setKaijus(response.map((nft) => nft.data))
-                    typed.elements.container.innerHTML += successStatus
-                    setProgress((step) => step + 1)
-                  })
+                    getGenesisCount(wallet!)
+                  ])
+                    .then(([response, count]) => {
+                      typed.elements.container.innerHTML += successStatus
+                      setGenesisCount(parseInt(count._hex, 16))
+                      setKaijus(response.map((nft) => nft.data))
+                      setProgress((step) => step + 1)
+                    })
+                    .catch(() => {
+                      setError(true)
+                    })
                 })
                 .start()
             }}
@@ -133,11 +173,15 @@ export const DataLoader: FC<DataLoaderProps> = ({
                 .callFunction((typed) => {
                   getMutantBalanceMetadata(
                     nfts.filter((nft) => nft.token_address === MUTANTS_ADDRESS).map((nft) => nft.token_id)
-                  ).then((response) => {
-                    setMutants(response.map((nft) => nft.data))
-                    typed.elements.container.innerHTML += successStatus
-                    setProgress((step) => step + 1)
-                  })
+                  )
+                    .then((response) => {
+                      setMutants(response.map((nft) => nft.data))
+                      typed.elements.container.innerHTML += successStatus
+                      setProgress((step) => step + 1)
+                    })
+                    .catch(() => {
+                      setError(true)
+                    })
                 })
                 .start()
             }}
