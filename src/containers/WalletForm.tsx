@@ -22,7 +22,10 @@ export const WalletForm = () => {
 
   useEffect(() => {
     const savedWallet = localStorage.getItem(WALLET_KEY)
-    if (savedWallet) navigate(`${RouteNames.WALLET}/${savedWallet}`)
+    if (savedWallet) {
+      setRememberMe(true)
+      setWallet(savedWallet)
+    }
   }, [])
   return (
     <div className='bg-panel mx-auto flex flex-col max-w-xl p-8'>
