@@ -4,6 +4,7 @@ import { GlowingBackground } from 'src/components/GlowingBackground'
 import { RouteNames } from 'src/config/routes'
 
 const WALLET_KEY = 'walletAddress'
+
 export const WalletForm = () => {
   const [wallet, setWallet] = useState<string>('')
   const [rememberMe, setRememberMe] = useState<boolean>(false)
@@ -11,12 +12,11 @@ export const WalletForm = () => {
   const navigate = useNavigate()
   const isWalletValid = wallet.match(/^0x[a-fA-F0-9]{40}$/) ? true : false
   const onSubmit = () => {
-    // TODO: remove comments
-    // if (rememberMe) {
-    //   localStorage.setItem(WALLET_KEY, wallet)
-    // } else {
-    //   localStorage.removeItem(WALLET_KEY)
-    // }
+    if (rememberMe) {
+      localStorage.setItem(WALLET_KEY, wallet)
+    } else {
+      localStorage.removeItem(WALLET_KEY)
+    }
     navigate(`${RouteNames.WALLET}/${wallet}`)
   }
 
