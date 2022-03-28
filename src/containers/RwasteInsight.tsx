@@ -7,6 +7,7 @@ import { RwasteBalance } from 'src/interfaces/rwasteBalance.interface'
 import { faWallet, faDroplet } from '@fortawesome/free-solid-svg-icons'
 
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
+import { DexGraph } from 'src/components/DexGraph'
 interface RwasteInsightProps {
   rwaste: RwasteBalance
   genesisCount: number
@@ -27,6 +28,12 @@ export const RWasteInsight: FC<RwasteInsightProps> = ({
         You can claim a total of {rwaste.toClaim.toFixed(0)} $RWASTE
       </h2>
 
+      <h3 className='text-2xl text-white font-bold mb-8'>
+        <Icon icon={faWallet} /> General info
+      </h3>
+      <div className='grid grid-cols-1'>
+        <DexGraph />
+      </div>
       <h3 className='text-2xl text-white font-bold mb-8'>
         <Icon icon={faWallet} /> Wallet insight
       </h3>
