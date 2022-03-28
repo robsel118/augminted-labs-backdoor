@@ -61,7 +61,10 @@ export const DataLoader: FC<DataLoaderProps> = ({
   const navigate = useNavigate()
 
   const { getRwasteBalance, getRwasteToClaim } = useRwasteContract()
-  const { getNFTBalances } = useNFTBalances({ chain: 'eth', address: wallet }, { autoFetch: false })
+  const { getNFTBalances } = useNFTBalances(
+    { address: wallet, token_addresses: [KAIJU_KINGZ_ADDRESS, MUTANTS_ADDRESS], chain: 'eth' },
+    { autoFetch: false }
+  )
   const { getKaijuBalanceMetadata, getGenesisCount } = useKaijuContract()
   const { getMutantBalanceMetadata } = useMutantContract()
   const { fetchTokenPrice } = useTokenPrice({

@@ -62,7 +62,10 @@ export const RwastePanel: FC<RwastePanelProps> = ({ genesisCount, rwaste }) => {
       <Panel icon={faHandHoldingDroplet} value={rwaste.toClaim} description='To Claim' />
       <Panel
         icon={faRadiation}
-        value={parseInt(((750 - (rwaste.toClaim + rwaste.held)) / (5 * genesisCount)).toFixed(2), 10)}
+        value={Math.max(
+          parseInt(((750 - (rwaste.toClaim + rwaste.held)) / (5 * genesisCount)).toFixed(2), 10),
+          0
+        )}
         description='Days to fuse a baby'
         decimal={2}
       />

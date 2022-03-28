@@ -19,7 +19,6 @@ function App() {
           <div className='block px-8'>
             <Routes>
               <Route path={RouteNames.HOME} element={<WalletForm />} />
-
               <Route path={RouteNames.WALLET_ID} element={<WalletPage />} />
             </Routes>
           </div>
