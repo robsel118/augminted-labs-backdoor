@@ -23,6 +23,9 @@ export const useKaijuContract = () => {
   const getGenesisCount = (wallet: string) => {
     return KaijuContract.balanceGenesis(wallet)
   }
+  const getBabyCount = () => {
+    return KaijuContract.babyCount()
+  }
 
-  return { KaijuContract, getKaijuBalanceMetadata, getGenesisCount }
+  return { KaijuContract, getKaijuBalanceMetadata, getGenesisCount, getBabyCount }
 }

@@ -17,6 +17,7 @@ interface DataLoaderProps {
   setMutants: Dispatch<SetStateAction<Nft[]>>
   setGenesisCount: Dispatch<SetStateAction<number>>
   setDataLoaded: Dispatch<SetStateAction<boolean>>
+  setBabyCount: Dispatch<SetStateAction<number>>
 }
 
 const typewriterOption = {
@@ -46,7 +47,8 @@ export const DataLoader: FC<DataLoaderProps> = ({
   setKaijus,
   setMutants,
   setDataLoaded,
-  setGenesisCount
+  setGenesisCount,
+  setBabyCount
 }) => {
   // page state
   const [progress, setProgress] = useState<number>(0)
@@ -65,7 +67,7 @@ export const DataLoader: FC<DataLoaderProps> = ({
     { address: wallet, token_addresses: [KAIJU_KINGZ_ADDRESS, MUTANTS_ADDRESS], chain: 'eth' },
     { autoFetch: false }
   )
-  const { getKaijuBalanceMetadata, getGenesisCount } = useKaijuContract()
+  const { getKaijuBalanceMetadata, getGenesisCount, getBabyCount } = useKaijuContract()
   const { getMutantBalanceMetadata } = useMutantContract()
   const { fetchTokenPrice } = useTokenPrice({
     address: TokenAddress[Token.RWASTE],
@@ -148,12 +150,14 @@ export const DataLoader: FC<DataLoaderProps> = ({
                         .filter((nft) => nft.token_address === KAIJU_KINGZ_ADDRESS)
                         .map((nft) => nft.token_id)
                     ),
-                    getGenesisCount(wallet!)
+                    getGenesisCount(wallet!),
+                    getBabyCount()
                   ])
-                    .then(([response, count]) => {
+                    .then(([response, count, babyCount]) => {
                       typed.elements.container.innerHTML += successStatus
                       setGenesisCount(parseInt(count._hex, 16))
                       setKaijus(response.map((nft) => nft.data))
+                      setBabyCount(parseInt(babyCount._hex, 16))
                       setProgress((step) => step + 1)
                     })
                     .catch(() => {
@@ -198,7 +202,7 @@ export const DataLoader: FC<DataLoaderProps> = ({
             options={typewriterOption}
             onInit={(typewriter) => {
               typewriter
-                .typeString('Accessing RSCALES project data')
+                .typeString('Accessing RSCALE project data')
                 .pauseFor(300)
                 .typeString(failedStatus)
                 .callFunction(() => {
@@ -216,7 +220,7 @@ export const DataLoader: FC<DataLoaderProps> = ({
             options={typewriterOption}
             onInit={(typewriter) => {
               typewriter
-                .typeString('Accessing scientist profiles data')
+                .typeString('Accessing Scientist profiles data')
                 .pauseFor(300)
                 .typeString(failedStatus)
                 .start()

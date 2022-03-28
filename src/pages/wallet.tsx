@@ -11,6 +11,7 @@ export const WalletPage = () => {
   const [rwaste, setRwaste] = useState<RwasteBalance>({ held: 0, toClaim: 0 })
   const [isDataLoaded, setDataLoaded] = useState<boolean>(false)
   const [genesisCount, setGenesisCount] = useState<number>(0)
+  const [babyCount, setBabyCount] = useState<number>(0)
 
   if (!isDataLoaded) {
     return (
@@ -20,6 +21,7 @@ export const WalletPage = () => {
         setRwaste={setRwaste}
         setDataLoaded={setDataLoaded}
         setGenesisCount={setGenesisCount}
+        setBabyCount={setBabyCount}
       />
     )
   }
@@ -31,6 +33,7 @@ export const WalletPage = () => {
         genesisCount={genesisCount}
         kaijuCount={kaijus.length}
         mutantCount={mutants.length}
+        babyCount={babyCount}
       />
       <RwastePanel rwaste={rwaste} genesisCount={genesisCount} />
     </div>
